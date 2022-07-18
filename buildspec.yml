@@ -8,9 +8,11 @@ phases:
     - zip -r deployment_package.zip lambda_function.py
     - aws s3 cp deployment_package.zip s3://my-bucket-dewankar/lambda/lambda1
     - pip install -r requirements.txt --target azure/python/lib/python3.8/site-packages/ && rm -rf src/layers/azure/python/lib/python3.8/site-packages/dataclasses-0.6.dist-info  src/layers/azure/python/lib/python3.8/site-packages/dataclasses.py
-    
+    - zip -r layers_package.zip azure
+    - aws s3 cp layers_package.zip s3://my-bucket-dewankar/layer/baba
   post_build:
     commands:
+    - aws lambda publish-layer-version --layer-name baba --content S3Bucket=my-bucket-dewankar,S3Key=layer/baba --compatible-runtimes python3.6 python3.7
     - echo "Deploying to the Lambda"
     - aws lambda update-function-code --function-name  hello_world --s3-bucket my-bucket-dewankar --s3-key lambda/lambda1
 artifacts:
