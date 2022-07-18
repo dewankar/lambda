@@ -6,6 +6,7 @@ phases:
     - echo "This is build phase... making s3"
     - aws s3api create-bucket --bucket my-bucket-dewankar --region us-east-1 --object-ownership BucketOwnerEnforced
     - zip -r deployment_package.zip lambda_function.py
+    - aws s3api copy-object --copy-source deployment_package.zip  --key lambda --bucket my-bucket-dewankar
   post_build:
     commands:
     - echo "Deploying to the Lambda"
