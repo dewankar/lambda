@@ -7,7 +7,8 @@ phases:
     - aws s3api create-bucket --bucket my-bucket-dewankar --region us-east-1 --object-ownership BucketOwnerEnforced
     - zip -r deployment_package.zip lambda_function.py
     - aws s3 cp deployment_package.zip s3://my-bucket-dewankar/lambda/lambda1
-
+    - pip install -r requirements.txt --target azure/python/lib/python3.8/site-packages/ && rm -rf src/layers/azure/python/lib/python3.8/site-packages/dataclasses-0.6.dist-info  src/layers/azure/python/lib/python3.8/site-packages/dataclasses.py
+    
   post_build:
     commands:
     - echo "Deploying to the Lambda"
