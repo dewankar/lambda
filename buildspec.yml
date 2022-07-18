@@ -3,7 +3,11 @@ version: 0.2
 phases:
   build:
     commands:
-    - echo "This is build phase... Zipping my lambda function"
+    - echo "This is build phase... making s3"
+    aws s3api create-bucket \
+    --bucket my-bucket-dewankar \
+    --region us-east-1 \
+    --object-ownership BucketOwnerEnforced
     - zip -r deployment_package.zip lambda_function.py
   post_build:
     commands:
